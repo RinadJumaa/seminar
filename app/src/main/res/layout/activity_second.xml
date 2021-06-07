@@ -13,14 +13,14 @@
         android:id="@+id/imginfo"
         android:layout_width="100dp"
         android:layout_height="80dp"
-        android:layout_marginTop="60dp"
+        android:layout_marginTop="210dp"
         android:layout_marginLeft="-15dp"
         android:src="@drawable/myinformation"/>
     <TextView
         android:id="@+id/btninfo"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="80dp"
+        android:layout_marginTop="230dp"
         android:layout_toRightOf="@+id/imginfo"
         android:text="User Information"
         android:textSize="25dp"
@@ -31,40 +31,50 @@
         android:id="@+id/imgMyday"
         android:layout_width="100dp"
         android:layout_height="80dp"
-        android:layout_marginTop="160dp"
         android:layout_marginLeft="-13dp"
-        android:src="@drawable/myday"/>
+        android:layout_marginTop="310dp"
+        android:src="@drawable/myday" />
+
     <TextView
         android:id="@+id/btnMyday"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="70dp"
-        android:layout_toRightOf="@+id/imgMyday"
         android:layout_below="@+id/btninfo"
+        android:layout_marginLeft="1dp"
+        android:layout_marginTop="71dp"
+        android:layout_toRightOf="@+id/imgMyday"
         android:text="My Day"
-        android:textSize="25dp"
         android:textColor="#36FBE5"
-        android:textStyle="bold"/>
+        android:textSize="25dp"
+        android:textStyle="bold" />
 
     <ImageView
         android:id="@+id/imgMakegroup"
         android:layout_width="100dp"
         android:layout_height="80dp"
-        android:layout_marginTop="260dp"
         android:layout_marginLeft="-15dp"
-        android:src="@drawable/makegroup"/>
+        android:layout_marginTop="400dp"
+        android:src="@drawable/makegroup" />
+
     <TextView
         android:id="@+id/btnMakeGroup"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_toRightOf="@+id/imgMakegroup"
         android:layout_below="@+id/btnMyday"
-        android:layout_marginTop="70dp"
+        android:layout_marginLeft="-7dp"
+        android:layout_marginTop="59dp"
+        android:layout_toRightOf="@+id/imgMakegroup"
         android:text="Make Group"
-        android:textSize="25dp"
         android:textColor="#36FBE5"
-        android:textStyle="bold"/>
+        android:textSize="25dp"
+        android:textStyle="bold" />
 
-   
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="300dp"
+        android:layout_below="@+id/btnMakeGroup"
+        android:layout_marginTop="-591dp"
+        android:src="@drawable/tobring" />
+
 
 </RelativeLayout>
