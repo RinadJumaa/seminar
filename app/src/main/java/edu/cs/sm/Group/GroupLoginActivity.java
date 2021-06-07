@@ -3,7 +3,6 @@ package edu.cs.sm.Group;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Patterns;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
@@ -85,7 +84,7 @@ public class GroupLoginActivity extends AppCompatActivity {
      * Launch Dashboard Activity on Successful Login
      */
     public void loadsecondActivity() {
-        Intent intent = new Intent(this, GroupNoteActivity.class);
+        Intent intent = new Intent(this, GroupMainActivity.class);
         startActivity(intent);
     }
    /* private void loadDashboard() {

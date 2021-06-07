@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#FFFFFF">
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/appbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:elevation="0dp">
+
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#820505"
+            app:contentInsetStart="0dp"
+            app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
+            <Button
+                android:id="@+id/save_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:backgroundTint="#820505"
+                android:onClick="saveTask"
+                android:paddingVertical="15dp"
+                android:text="SAVE"
+                android:textSize="20dp"
+                android:textColor="#FFFFFF" />
+            <TextView
+                android:id="@+id/toolbar_title"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:textSize="18dp"
+                android:textStyle="bold" />
+
+
+        </androidx.appcompat.widget.Toolbar>
+    </com.google.android.material.appbar.AppBarLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+        <EditText
+            android:id="@+id/edit_text"
+            android:layout_width="293dp"
+            android:layout_height="wrap_content"
+            android:background="#FFFFFF"
+            android:hint="What are you planning?"
+            android:padding="20dp"
+            android:textColorHint="#CDD1D5" />
+        <EditText
+            android:layout_width="293dp"
+            android:layout_height="wrap_content"
+            android:background="#FFFFFF"
+            android:hint="Description"
+            android:padding="20dp"
+            android:inputType="textMultiLine"
+            android:textColorHint="#CDD1D5" />
+        <Button
+            android:id="@+id/btnlocation"
+            android:layout_width="282dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="100dp"
+            android:layout_gravity="center"
+            android:backgroundTint="@color/material_on_background_disabled"
+            android:text="Set Location" />
+
+
+        <LinearLayout
+            android:id="@+id/custom_config"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:paddingHorizontal="30dp"
+            android:paddingVertical="20dp"
+            android:onClick="chooseDate">
+
+
+            <TextView
+                android:id="@+id/dateText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="500dp"
+                android:textSize="16dp"
+                android:textStyle="bold"
+                android:text="29/05/2021"/>
+
+        </LinearLayout>
+
+   </LinearLayout>
+
+
+
+    <ImageView
+        android:id="@+id/deleteTask"
+        android:layout_width="56dp"
+        android:layout_height="36dp"
+        android:onClick="deleteTask"
+        android:layout_marginLeft="300dp"
+        android:layout_marginTop="15dp"
+        android:src="@drawable/deletee" />
+<ImageView
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginTop="400dp"
+    android:src="@drawable/group"/>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>
