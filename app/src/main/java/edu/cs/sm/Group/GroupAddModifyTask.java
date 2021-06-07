@@ -23,6 +23,7 @@ import java.util.GregorianCalendar;
 
 import edu.cs.sm.LocationAlarm;
 import edu.cs.sm.R;
+import edu.cs.sm.SessionHandler;
 
 public class GroupAddModifyTask extends AppCompatActivity {
 
@@ -39,6 +40,7 @@ public class GroupAddModifyTask extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        getSupportActionBar().hide();
         getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
         setContentView(R.layout.activity_group_add_modify_task);
 

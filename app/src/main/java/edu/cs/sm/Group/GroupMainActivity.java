@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import edu.cs.sm.R;
+import edu.cs.sm.SessionHandler;
 
 public class GroupMainActivity extends AppCompatActivity {
 
@@ -29,6 +30,7 @@ public class GroupMainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        getSupportActionBar().hide();
         getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
         setContentView(R.layout.activity_group_main);
 
