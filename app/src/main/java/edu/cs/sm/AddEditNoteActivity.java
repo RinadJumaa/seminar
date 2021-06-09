@@ -11,7 +11,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-import android.widget.CheckBox;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -23,6 +22,9 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import java.util.Calendar;
+
+import edu.cs.sm.LocationAlarm;
+import edu.cs.sm.R;
 
 
 public class AddEditNoteActivity extends AppCompatActivity {
@@ -55,7 +57,7 @@ public class AddEditNoteActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 String note_title = title.getText().toString();
-                Intent i = new Intent(edu.cs.sm.AddEditNoteActivity.this, LocationAlarm.class);
+                Intent i = new Intent(AddEditNoteActivity.this, LocationAlarm.class);
                 i.putExtra("note_title", note_title);
                 int id = getIntent().getIntExtra("id",-1);
                 if (id > -1){
@@ -69,16 +71,18 @@ public class AddEditNoteActivity extends AppCompatActivity {
                     switchValue= "false";
                 i.putExtra("switchValue",switchValue);
 
+
+
                 //i.putExtra("cbvalue",checkBox);
-                startActivity(i);
-                finish();
+                startActivityForResult(i,1);
+                //finish();
             }
         });
 
 
-        Intent loc = getIntent();
-        String location = loc.getStringExtra("locationName");
-        locationName.setText(location);
+//        Intent loc = getIntent();
+//        String location = loc.getStringExtra("locationName");
+//        locationName.setText(location);
 
         imgcalender.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -201,4 +205,19 @@ public class AddEditNoteActivity extends AppCompatActivity {
         setResult(RESULT_OK, intent);
         finish();
     }
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        //String location = locationName.getText().toString();
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 1) {
+            if (resultCode == RESULT_OK) {
+                String result = data.getStringExtra("locationName");
+                locationName.setText("" + result);
+            }
+            if (resultCode == RESULT_CANCELED) {
+                locationName.setText("No place added");
+            }
+        }
+    }
+
 }

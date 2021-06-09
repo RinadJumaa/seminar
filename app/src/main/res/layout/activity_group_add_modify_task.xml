@@ -66,14 +66,16 @@
             android:padding="20dp"
             android:inputType="textMultiLine"
             android:textColorHint="#CDD1D5" />
+
         <Button
             android:id="@+id/btnlocation"
             android:layout_width="282dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="100dp"
             android:layout_gravity="center"
+            android:layout_marginTop="100dp"
             android:backgroundTint="#820505"
-            android:text="Set Location" />
+            android:text="Set Location"
+            android:textColor="#FFFFFF" />
 
 
         <LinearLayout
@@ -107,7 +109,7 @@
         android:layout_width="56dp"
         android:layout_height="36dp"
         android:onClick="deleteTask"
-        android:layout_marginLeft="300dp"
+        android:layout_marginLeft="30dp"
         android:layout_marginTop="15dp"
         android:src="@drawable/deletee" />
 <ImageView

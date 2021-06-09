@@ -21,6 +21,8 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import edu.cs.sm.UserTasks.UserRegisterSqlite;
+
 public class LoginActivity extends AppCompatActivity {
 
     private static final String KEY_STATUS = "status";
@@ -34,7 +36,7 @@ public class LoginActivity extends AppCompatActivity {
     private String username;
     private String password;
     private ProgressDialog pDialog;
-    private String login_url = "http://192.168.1.7/LoginandRegistration/login.php";
+    private String login_url = "http://192.168.0.101/LoginandRegistration/login.php";
     private SessionHandler session;
 
     @Override
@@ -59,7 +61,7 @@ public class LoginActivity extends AppCompatActivity {
         register.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(edu.cs.sm.LoginActivity.this, RegisterActivity.class);
+                Intent i = new Intent(edu.cs.sm.LoginActivity.this, UserRegisterSqlite.class);
                 startActivity(i);
                 finish();
             }

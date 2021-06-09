@@ -35,7 +35,7 @@ public class GroupLoginActivity extends AppCompatActivity {
     private String username;
     private String password;
     private ProgressDialog pDialog;
-    private String login_url = "http://192.168.1.7/groupLoginandRegistration/login.php";
+    private String login_url = "http://192.168.0.101/groupLoginandRegistration/login.php";
     private edu.cs.sm.Group.GroupSessionHandler session;
 
     @Override

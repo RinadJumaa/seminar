@@ -8,6 +8,7 @@ import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 
 import edu.cs.sm.Group.GroupAddModifyTask;
+import edu.cs.sm.Group.GroupLogInSqlite;
 import edu.cs.sm.Group.GroupLoginActivity;
 import edu.cs.sm.Group.GroupMainActivity;
 
@@ -54,7 +55,7 @@ public class SecondActivity extends AppCompatActivity {
         etUMakegroup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(edu.cs.sm.SecondActivity.this, GroupLoginActivity.class);
+                Intent i = new Intent(edu.cs.sm.SecondActivity.this, GroupLogInSqlite.class);
                 startActivity(i);
                 finish();
             }

@@ -46,6 +46,25 @@
         android:text="Go"
         android:textColor="#FFFFFF" />
 
+    <Button
+        android:id="@+id/btn_add"
+        android:layout_width="68dp"
+        android:layout_height="50dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="316dp"
+        android:layout_marginLeft="316dp"
+        android:layout_marginEnd="27dp"
+        android:layout_marginRight="27dp"
+        android:layout_marginBottom="13dp"
+        android:background="@drawable/custom_button"
+        android:onClick="AddLocation"
+        android:text="Add"
+        android:textColor="#FFFFFF" />
+
     <ImageButton
         android:id="@+id/btn_myLocation"
         android:layout_width="72dp"

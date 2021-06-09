@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#090909"
+    android:gravity="center_vertical"
+    android:orientation="vertical"
+    android:padding="50dp"
+    tools:context=".UserTasks.UserLoginSqlite">
+
+    <TextView
+        android:id="@+id/txt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="WELCOME"
+        android:fontFamily="casual"
+        android:textStyle="bold"
+        android:textSize="35dp"
+        android:layout_gravity="center"
+        android:textColor="#36FBE5"/>
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="330dp"
+        android:layout_height="230dp"
+        android:src="@drawable/mybring" />
+
+    <EditText
+        android:id="@+id/etLoginUsername"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:textColor="@color/white"
+        android:background="#5A5757"
+        android:hint="Email"
+        android:textSize="20dp"
+        android:textColorHint="@android:color/holo_red_light"
+        android:inputType="textPersonName"
+        android:padding="10dp" />
+
+
+    <EditText
+        android:id="@+id/etLoginPassword"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:textSize="20dp"
+        android:textColor="@color/white"
+        android:background="#5A5757"
+        android:hint="@string/password"
+        android:textColorHint="@android:color/holo_red_light"
+        android:inputType="textPassword"
+        android:padding="10dp" />
+
+
+
+    <Button
+        android:id="@+id/btnLogin"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:backgroundTint="#AC2E02"
+        android:textSize="20dp"
+        android:text="@string/sign_in"
+        android:onClick="LogInwithUser"
+        android:textColor="@android:color/white" />
+    <TextView
+        android:id="@+id/btnLoginRegister"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:layout_marginTop="20dp"
+        android:text="Don't Have an Account?  Sign Up"
+        android:textAllCaps="true"
+        android:textColor="#36FBE5"
+        android:textStyle="bold"/>
+
+
+
+</LinearLayout>
