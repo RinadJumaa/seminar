@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".LocationAlarm">
+    tools:context=".UserTasks.LocationAlarm">
 
     <fragment
         android:id="@+id/map"
@@ -15,7 +15,7 @@
         android:id="@+id/imgback"
         android:layout_width="50dp"
         android:layout_height="80dp"
-        android:src="@drawable/ic_back"/>
+        android:src="@drawable/ic_backarrow"/>
     <SearchView
         android:id="@+id/location"
         android:layout_width="match_parent"

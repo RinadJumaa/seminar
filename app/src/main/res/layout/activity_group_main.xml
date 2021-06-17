@@ -39,64 +39,8 @@
                     android:textSize="27sp"
                     android:textStyle="bold" />
 
-                <edu.cs.sm.Group.GroupNoScrollListView
+                <edu.cs.sm.GroupTasks.GroupNoScrollListView
                     android:id="@+id/taskListToday"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:divider="#30CCCCCC"
-                    android:dividerHeight="1dp" />
-
-            </LinearLayout>
-
-
-            <LinearLayout
-                android:id="@+id/tomorrowContainer"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
-
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginHorizontal="30dp"
-                    android:layout_marginTop="60dp"
-                    android:layout_marginBottom="10dp"
-                    android:text="Tomorrow's Tasks"
-                    android:textColor="#111111"
-                    android:textSize="27sp"
-                    android:textStyle="bold" />
-
-                <edu.cs.sm.Group.GroupNoScrollListView
-                    android:id="@+id/taskListTomorrow"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:divider="#30CCCCCC"
-                    android:dividerHeight="1dp" />
-
-            </LinearLayout>
-
-
-            <LinearLayout
-                android:id="@+id/otherContainer"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
-
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginHorizontal="30dp"
-                    android:layout_marginTop="60dp"
-                    android:layout_marginBottom="10dp"
-                    android:text="Upcoming Tasks"
-                    android:textColor="#111111"
-                    android:textSize="27sp"
-                    android:textStyle="bold" />
-
-                <edu.cs.sm.Group.GroupNoScrollListView
-                    android:id="@+id/taskListUpcoming"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:divider="#30CCCCCC"

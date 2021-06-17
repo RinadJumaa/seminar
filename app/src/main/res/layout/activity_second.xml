@@ -5,10 +5,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/black"
+    android:background="@drawable/tt"
     android:paddingTop="120dp"
     android:paddingLeft="20dp"
-    tools:context=".SecondActivity">
+    tools:context=".UserTasks.SecondActivity">
     <ImageView
         android:id="@+id/imginfo"
         android:layout_width="100dp"
@@ -64,17 +64,12 @@
         android:layout_marginLeft="-7dp"
         android:layout_marginTop="59dp"
         android:layout_toRightOf="@+id/imgMakegroup"
-        android:text="Make Group"
+        android:text="Make/Join Group"
         android:textColor="#36FBE5"
         android:textSize="25dp"
         android:textStyle="bold" />
 
-    <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="300dp"
-        android:layout_below="@+id/btnMakeGroup"
-        android:layout_marginTop="-557dp"
-        android:src="@drawable/tobring" />
+
 
 
 </RelativeLayout>
