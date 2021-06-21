@@ -1,4 +1,5 @@
 package edu.cs.sm.GroupTasks;
+import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
@@ -44,12 +45,10 @@ public class GroupLocation extends FragmentActivity implements OnMapReadyCallbac
     int count = 0;
     int mycount = 0;
     static Uri alarmsound;
-    String title = "";
+    String locationName = "";
+    String title="";
     int id;
-    String repeat_switch;
-    //String checkBox;
-    boolean taskCancel = false;
-    //boolean repeat = false;
+    //boolean taskCancel = false;
 
     // added to save the latlng for current location and last searched location
     double startLongitude, startLatitude, endLongitude, endLatitude;
@@ -77,17 +76,13 @@ public class GroupLocation extends FragmentActivity implements OnMapReadyCallbac
         });
 
         Intent i = getIntent();
-        title = title + i.getStringExtra("note_title");
+        locationName = locationName + i.getStringExtra("location_name");
+        title = title + i.getStringExtra("title");
         id = i.getIntExtra("id",-1);
-        repeat_switch = i.getStringExtra("switchValue");
-        //System.out.println("FREAKING REPEAT ISSSS: " +repeat_switch);
-        //repeat = Boolean.parseBoolean(repeat_switch);
-        //checkBox = i.getStringExtra("cbvalue");
-        //taskCancel = Boolean.parseBoolean(checkBox);
 
 
         if(Build.VERSION.SDK_INT >=  Build.VERSION_CODES.O){
-            NotificationChannel channel= new NotificationChannel(title,
+            NotificationChannel channel= new NotificationChannel(locationName,
                     "arrived to Destination", NotificationManager.IMPORTANCE_DEFAULT);
             NotificationManager manager = getSystemService(NotificationManager.class);
             manager.createNotificationChannel(channel);
@@ -110,7 +105,7 @@ public class GroupLocation extends FragmentActivity implements OnMapReadyCallbac
                 Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
 
             ActivityCompat.requestPermissions(this, new String []{
-                    Manifest.permission.ACCESS_FINE_LOCATION},REQUEST_CODE);
+                    Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_BACKGROUND_LOCATION},REQUEST_CODE);
             return;
         }
 
@@ -128,8 +123,16 @@ public class GroupLocation extends FragmentActivity implements OnMapReadyCallbac
         });
 
         alarmsound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
-        refreshMyLocation();
-        refreshDistence();
+        //refreshMyLocation();
+        System.out.println("LOCATION ISSSSSSSS" + locationName);
+        if (!locationName.equals("")) {
+            refreshMyLocation();
+            refreshDistence();
+        }
+        else {
+            //refreshMyLocation();
+            Toast.makeText(this, "Add new Place", Toast.LENGTH_SHORT).show();
+        }
     }
 
     private void getDesieredLocation() {
@@ -161,7 +164,7 @@ public class GroupLocation extends FragmentActivity implements OnMapReadyCallbac
                             //adding the new marker
                             LatLng latLng = new LatLng(endLatitude, endLongitude);
                             map.addMarker(new MarkerOptions().position(latLng).title(location));
-                            map.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 15));
+                            map.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 18));
                             //System.out.println("LOCATION IS     "+location);
 
 
@@ -190,17 +193,50 @@ public class GroupLocation extends FragmentActivity implements OnMapReadyCallbac
         });
     }
 
+    @Override
+    protected void onPause() {
+        super.onPause();
+        final Handler handler = new Handler();
+        handler.post(new Runnable() {
+            @Override
+            public void run() {
+                if (!locationName.equals(""))
+                    refreshDistence();
+                refreshMyLocation();
+                handler.postDelayed(this,5000);
+            }
+        });
+
+
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        final Handler handler = new Handler();
+        handler.post(new Runnable() {
+            @Override
+            public void run() {
+                if (!locationName.equals("")) {
+                    refreshDistence();
+                    refreshMyLocation();
+                }
+                handler.postDelayed(this,5000);
+            }
+        });
+    }
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
 
         startLatitude = currentLocation.getLatitude();
         startLongitude = currentLocation.getLongitude();
-
+        googleMap.clear();
         LatLng latLng = new LatLng(startLatitude, startLongitude); // new latlng with the current location
         MarkerOptions markerOptions = new MarkerOptions().position(latLng).title("You are here");
         googleMap.animateCamera(CameraUpdateFactory.newLatLng(latLng));
-        googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng,15));
+        googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng,18));
         googleMap.addMarker(markerOptions); //add the marker
         //map = googleMap;
     }
@@ -210,24 +246,36 @@ public class GroupLocation extends FragmentActivity implements OnMapReadyCallbac
     public void CalculateDistance(View view) {
 
         Location.distanceBetween(startLatitude, startLongitude, endLatitude, endLongitude, result);
+        int distance = (int) result[0];
 
-        Toast.makeText(getApplicationContext(), "Distance: " + result[0], Toast.LENGTH_SHORT).show();
+        Toast.makeText(getApplicationContext(), "you are: " + distance + " m away from " + locationName, Toast.LENGTH_SHORT).show();
 
     }
 
     public void refreshDistence(){
 
-        // CODE IT USING THREAD!!!!!
+        List<Address> addressList = null;
+        Geocoder geocoder = new Geocoder(GroupLocation.this);
+        try {
+            addressList = geocoder.getFromLocationName(locationName, 1);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        Address address = addressList.get(0);
+        endLatitude = address.getLatitude();
+        endLongitude = address.getLongitude();
+
         final Handler handler = new Handler();
         handler.post(new Runnable() {
             @Override
             public void run() {
-
-                    Location.distanceBetween(startLatitude, startLongitude, endLatitude, endLongitude, result);
-
-                    //Toast.makeText(getApplicationContext(), "Distance: " + result[0], Toast.LENGTH_SHORT).show();
-                    System.out.println("refreshed   " + result[0]);
-                    Toast.makeText(GroupLocation.this, "distance " + result[0], Toast.LENGTH_SHORT).show();
+                Location.distanceBetween(startLatitude, startLongitude, endLatitude, endLongitude, result);
+                //Toast.makeText(getApplicationContext(), "Distance: " + result[0], Toast.LENGTH_SHORT).show();
+                System.out.println("refreshed   " + result[0]);
+                if (result[0] < 2000000 )
+//                    Toast.makeText(LocationAlarm.this, "you are: " + result[0]
+//                            + " m away from "+locationName,
+//                            Toast.LENGTH_SHORT).show();
                     generateNotification();
                 handler.postDelayed(this,5000);
             }
@@ -275,47 +323,48 @@ public class GroupLocation extends FragmentActivity implements OnMapReadyCallbac
     }
 
     public void refreshMyLocation(){
-
+        //map.clear();
         mycount++;
         final Handler handler = new Handler();
         handler.post(new Runnable() {
             @Override
             public void run() {
-                    if (ActivityCompat.checkSelfPermission(GroupLocation.this, Manifest.permission.ACCESS_FINE_LOCATION) !=
-                            PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(GroupLocation.this,
-                            Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                if (ActivityCompat.checkSelfPermission(GroupLocation.this,Manifest.permission.ACCESS_FINE_LOCATION)!=
+                        PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(GroupLocation.this,
+                        Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
 
-                        ActivityCompat.requestPermissions(GroupLocation.this, new String []{
-                                Manifest.permission.ACCESS_FINE_LOCATION},REQUEST_CODE);
-                        return;
-                    }
+                    ActivityCompat.requestPermissions(GroupLocation.this, new String []{
+                            Manifest.permission.ACCESS_FINE_LOCATION},REQUEST_CODE);
+                    return;
+                }
 
 
-                    Task<Location> task = client.getLastLocation(); // get the last location the device was in (current location)
-                    task.addOnSuccessListener(new OnSuccessListener<Location>() {
-                        @Override
-                        public void onSuccess(final Location location) {
-                            if (location != null){
-                                currentLocation = location;
-                                // get the map when everything is ready
+                Task<Location> task = client.getLastLocation(); // get the last location the device was in (current location)
+                task.addOnSuccessListener(new OnSuccessListener<Location>() {
+                    @Override
+                    public void onSuccess(final Location location) {
+                        if (location != null){
+                            currentLocation = location;
+                            // get the map when everything is ready
 
-                                LatLng latLng = new LatLng(startLatitude, startLongitude);
+                            LatLng latLng = new LatLng(startLatitude, startLongitude);
 //                                mapFragment.getMapAsync(new OnMapReadyCallback() {
 //                                    @Override
 //                                    public void onMapReady(GoogleMap googleMap) {
 //                                        map = googleMap;
 //                                    }
 //                                });
+                            //LatLng latLng = new LatLng(startLatitude, startLongitude); // new latlng with the current location
+                            //MarkerOptions markerOptions = new MarkerOptions().position(latLng).title("You are here");
+                            mapFragment.getMapAsync(GroupLocation.this);
 
-                                mapFragment.getMapAsync(GroupLocation.this);
-
-                            }
                         }
-                    });
+                    }
+                });
 
-                    System.out.println("refreshed  " + startLatitude+ " -- " + startLongitude );
-                    Toast.makeText(GroupLocation.this, "your location " + startLatitude+ " -- " + startLongitude, Toast.LENGTH_SHORT).show();
-                    generateNotification();
+                System.out.println("refreshed  " + startLatitude+ " -- " + startLongitude );
+                //Toast.makeText(LocationAlarm.this, "your location " + startLatitude+ " -- " + startLongitude, Toast.LENGTH_SHORT).show();
+                generateNotification();
                 handler.postDelayed(this,5000);
             }
         });
@@ -354,31 +403,40 @@ public class GroupLocation extends FragmentActivity implements OnMapReadyCallbac
     }
 
     public void generateNotification() {
-
-        if(result[0] <= 5000 && result[0]!= 0){
-            NotificationCompat.Builder builder = new NotificationCompat.Builder(
-                    GroupLocation.this, title);
-            builder.setContentTitle("Reminder");
-            builder.setContentText("you are less than 5000m don't forget the task " + title);
-            builder.setSmallIcon(R.drawable.ic_launcher_background);
-            builder.setSound(alarmsound);
-//                builder.setAutoCancel(true);
-//                builder.setOngoing(false);
-//            NotificationManagerCompat managerCompat = NotificationManagerCompat.from(LocationAlarm.this);
-//            managerCompat.notify(id, builder.build());
-
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(
+                GroupLocation.this, locationName);
+        if(result[0] <= 500 && result[0]!= 0) {
+            int distance = (int) result[0];
+            if (locationName.length() > 0) {
+                builder.setContentTitle("Reminder");
+                builder.setContentText("you are less than "+distance + " m from "+locationName+
+                        " don't forget to end the task " + title+" for your group");
+                builder.setSmallIcon(R.drawable.logo);
+                builder.setSound(alarmsound);
                 builder.setAutoCancel(false);
                 builder.setOngoing(true);
 //            NotificationManagerCompat managerCompat = NotificationManagerCompat.from(LocationAlarm.this);
 //            managerCompat.notify(id, builder.build());
-
-
+            }
+            else{
+                builder.setAutoCancel(true);
+                builder.setOngoing(false);
+            }
             NotificationManagerCompat managerCompat = NotificationManagerCompat.from(GroupLocation.this);
             managerCompat.notify(id, builder.build());
         }
     }
 
-
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        switch (requestCode){
+            case REQUEST_CODE:
+                if(grantResults.length>0 && grantResults[0]== PackageManager.PERMISSION_GRANTED){
+                    refreshMyLocation();
+                }
+                break;
+        }
+    }
 
 
 }

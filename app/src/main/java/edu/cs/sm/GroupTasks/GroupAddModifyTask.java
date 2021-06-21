@@ -25,7 +25,7 @@ public class GroupAddModifyTask extends AppCompatActivity {
     String task_id;
     TextView toolbar_title;
     EditText title,description;
-    TextView dateText;
+    TextView edtlocation;
     Button save_btn,btnlocation;
 
     @Override
@@ -40,19 +40,9 @@ public class GroupAddModifyTask extends AppCompatActivity {
         toolbar_title = findViewById(R.id.toolbar_title);
         title = findViewById(R.id.edttitle);
         description = findViewById(R.id.edtdescription);
-        //dateText = findViewById(R.id.dateText);
+        edtlocation = findViewById(R.id.edtlocation);
         save_btn = findViewById(R.id.save_btn);
         btnlocation=findViewById(R.id.btnlocation);
-
-        btnlocation.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent i = new Intent(GroupAddModifyTask.this, GroupLocation.class);
-                startActivity(i);
-                finish();
-            }
-        });
-        //dateText.setText(new SimpleDateFormat("E, dd MMMM yyyy").format(calendar.getTime()));
 
 
         Intent intent = getIntent();
@@ -61,6 +51,28 @@ public class GroupAddModifyTask extends AppCompatActivity {
             task_id = intent.getStringExtra("id");
             init_modify();
         }
+
+        btnlocation.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                String location_name = edtlocation.getText().toString();
+                //String notetitle = title.getText().
+                if (location_name.equals("Location")||location_name.equals("No place added")){
+                    location_name ="";
+                }
+                else {
+                    Intent i = new Intent(GroupAddModifyTask.this, GroupLocation.class);
+                    i.putExtra("location_name", location_name);
+                    i.putExtra("title", title.getText().toString());
+                    i.putExtra("id", task_id);
+                    startActivityForResult(i, 1);
+                    //finish();
+                }
+            }
+        });
+        //dateText.setText(new SimpleDateFormat("E, dd MMMM yyyy").format(calendar.getTime()));
+
 
 
     }
@@ -76,6 +88,7 @@ public class GroupAddModifyTask extends AppCompatActivity {
 
             title.setText(task.getString(1));
             description.setText(task.getString(2));
+            edtlocation.setText(task.getString(3));
 
 //            SimpleDateFormat iso8601Format = new SimpleDateFormat("yyyy-MM-dd");
 //            try {
@@ -88,6 +101,13 @@ public class GroupAddModifyTask extends AppCompatActivity {
 
         }
 
+        String buttonText = edtlocation.getText().toString();
+        if (buttonText.equals("")||buttonText.equals("Location")||buttonText.equals("No place added")){
+            btnlocation.setText("Set Location");
+        }
+        else
+            btnlocation.setText("Track Location");
+
     }
 
 
@@ -97,10 +117,14 @@ public class GroupAddModifyTask extends AppCompatActivity {
         if (title.getText().toString().trim().length() > 0) {
 
             if (isModify) {
-                mydb.updateTask(task_id, title.getText().toString(), description.getText().toString());
+                mydb.updateTask(task_id, title.getText().toString(),
+                        description.getText().toString(),
+                        edtlocation.getText().toString());
                 Toast.makeText(getApplicationContext(), "Task Updated.", Toast.LENGTH_SHORT).show();
             } else {
-                mydb.insertTask(title.getText().toString(), description.getText().toString());
+                mydb.insertTask(title.getText().toString(),
+                        description.getText().toString(),
+                        edtlocation.getText().toString());
                 Toast.makeText(getApplicationContext(), "Task Added.", Toast.LENGTH_SHORT).show();
             }
             finish();
@@ -115,6 +139,20 @@ public class GroupAddModifyTask extends AppCompatActivity {
         mydb.deleteTask(task_id);
         Toast.makeText(getApplicationContext(), "Task Removed", Toast.LENGTH_SHORT).show();
         finish();
+    }
+
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        //String location = locationName.getText().toString();
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 1) {
+            if (resultCode == RESULT_OK) {
+                String result = data.getStringExtra("locationName");
+                edtlocation.setText("" + result);
+            }
+            if (resultCode == RESULT_CANCELED) {
+                edtlocation.setText("No place added");
+            }
+        }
     }
 
 

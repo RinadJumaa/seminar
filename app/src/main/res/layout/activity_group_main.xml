@@ -13,7 +13,6 @@
 
         android:clipToPadding="false"
         android:isScrollContainer="false"
-        android:visibility="gone"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
         <LinearLayout
@@ -34,7 +33,7 @@
                     android:layout_marginHorizontal="30dp"
                     android:layout_marginTop="60dp"
                     android:layout_marginBottom="10dp"
-                    android:text="Today's Tasks"
+                    android:text="Group Tasks"
                     android:textColor="#111111"
                     android:textSize="27sp"
                     android:textStyle="bold" />

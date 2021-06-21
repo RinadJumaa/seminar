@@ -46,8 +46,9 @@ public class LocationAlarm extends FragmentActivity implements OnMapReadyCallbac
     int mycount = 0;
     static Uri alarmsound;
     String locationName = "";
+    String title="";
     int id;
-    boolean taskCancel = false;
+    //boolean taskCancel = false;
 
     // added to save the latlng for current location and last searched location
     double startLongitude, startLatitude, endLongitude, endLatitude;
@@ -76,6 +77,7 @@ public class LocationAlarm extends FragmentActivity implements OnMapReadyCallbac
 
         Intent i = getIntent();
         locationName = locationName + i.getStringExtra("location_name");
+        title = title + i.getStringExtra("title");
         id = i.getIntExtra("id",-1);
 
 
@@ -103,7 +105,7 @@ public class LocationAlarm extends FragmentActivity implements OnMapReadyCallbac
                 Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
 
             ActivityCompat.requestPermissions(this, new String []{
-                    Manifest.permission.ACCESS_FINE_LOCATION},REQUEST_CODE);
+                    Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_BACKGROUND_LOCATION},REQUEST_CODE);
             return;
         }
 
@@ -128,7 +130,7 @@ public class LocationAlarm extends FragmentActivity implements OnMapReadyCallbac
             refreshDistence();
         }
         else {
-            refreshMyLocation();
+            //refreshMyLocation();
             Toast.makeText(this, "Add new Place", Toast.LENGTH_SHORT).show();
         }
     }
@@ -162,7 +164,7 @@ public class LocationAlarm extends FragmentActivity implements OnMapReadyCallbac
                             //adding the new marker
                             LatLng latLng = new LatLng(endLatitude, endLongitude);
                             map.addMarker(new MarkerOptions().position(latLng).title(location));
-                            map.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 20));
+                            map.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 18));
                             //System.out.println("LOCATION IS     "+location);
 
 
@@ -216,9 +218,10 @@ public class LocationAlarm extends FragmentActivity implements OnMapReadyCallbac
         handler.post(new Runnable() {
             @Override
             public void run() {
-                if (!locationName.equals(""))
+                if (!locationName.equals("")) {
                     refreshDistence();
-                refreshMyLocation();
+                    refreshMyLocation();
+                }
                 handler.postDelayed(this,5000);
             }
         });
@@ -229,11 +232,11 @@ public class LocationAlarm extends FragmentActivity implements OnMapReadyCallbac
 
         startLatitude = currentLocation.getLatitude();
         startLongitude = currentLocation.getLongitude();
-
+        googleMap.clear();
         LatLng latLng = new LatLng(startLatitude, startLongitude); // new latlng with the current location
         MarkerOptions markerOptions = new MarkerOptions().position(latLng).title("You are here");
         googleMap.animateCamera(CameraUpdateFactory.newLatLng(latLng));
-        googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng,20));
+        googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng,18));
         googleMap.addMarker(markerOptions); //add the marker
         //map = googleMap;
     }
@@ -243,8 +246,9 @@ public class LocationAlarm extends FragmentActivity implements OnMapReadyCallbac
     public void CalculateDistance(View view) {
 
         Location.distanceBetween(startLatitude, startLongitude, endLatitude, endLongitude, result);
+        int distance = (int) result[0];
 
-        Toast.makeText(getApplicationContext(), "you are: " + result[0] + " m away from " + locationName, Toast.LENGTH_SHORT).show();
+        Toast.makeText(getApplicationContext(), "you are: " + distance + " m away from " + locationName, Toast.LENGTH_SHORT).show();
 
     }
 
@@ -269,9 +273,9 @@ public class LocationAlarm extends FragmentActivity implements OnMapReadyCallbac
                     //Toast.makeText(getApplicationContext(), "Distance: " + result[0], Toast.LENGTH_SHORT).show();
                     System.out.println("refreshed   " + result[0]);
                     if (result[0] < 2000000 )
-                    Toast.makeText(LocationAlarm.this, "you are: " + result[0]
-                            + " m away from "+locationName,
-                            Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(LocationAlarm.this, "you are: " + result[0]
+//                            + " m away from "+locationName,
+//                            Toast.LENGTH_SHORT).show();
                     generateNotification();
                 handler.postDelayed(this,5000);
             }
@@ -351,7 +355,8 @@ public class LocationAlarm extends FragmentActivity implements OnMapReadyCallbac
 //                                    }
 //                                });
                                 //LatLng latLng = new LatLng(startLatitude, startLongitude); // new latlng with the current location
-                                MarkerOptions markerOptions = new MarkerOptions().position(latLng).title("You are here");
+                                //MarkerOptions markerOptions = new MarkerOptions().position(latLng).title("You are here");
+                                mapFragment.getMapAsync(LocationAlarm.this);
 
                             }
                         }
@@ -401,11 +406,11 @@ public class LocationAlarm extends FragmentActivity implements OnMapReadyCallbac
         NotificationCompat.Builder builder = new NotificationCompat.Builder(
                 LocationAlarm.this, locationName);
         if(result[0] <= 500 && result[0]!= 0) {
+            int distance = (int) result[0];
             if (locationName.length() > 0) {
-
                 builder.setContentTitle("Reminder");
-                builder.setContentText("you are less than 5000m don't forget the task " + locationName);
-                builder.setSmallIcon(R.drawable.ic_launcher_background);
+                builder.setContentText("you are less than "+distance + " m from "+locationName+" don't forget to " + title);
+                builder.setSmallIcon(R.drawable.logo);
                 builder.setSound(alarmsound);
                 builder.setAutoCancel(false);
                 builder.setOngoing(true);
@@ -413,8 +418,8 @@ public class LocationAlarm extends FragmentActivity implements OnMapReadyCallbac
 //            managerCompat.notify(id, builder.build());
             }
             else{
-            builder.setAutoCancel(false);
-            builder.setOngoing(true);
+            builder.setAutoCancel(true);
+            builder.setOngoing(false);
             }
             NotificationManagerCompat managerCompat = NotificationManagerCompat.from(LocationAlarm.this);
         managerCompat.notify(id, builder.build());

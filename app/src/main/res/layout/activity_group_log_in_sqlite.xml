@@ -69,4 +69,15 @@
         android:textAllCaps="true"
         android:textColor="@color/gray_700"
         android:textStyle="bold"/>
+
+    <TextView
+        android:id="@+id/btnback"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:layout_marginTop="20dp"
+        android:text="Back to Main Page"
+        android:textAllCaps="true"
+        android:textColor="@color/gray_700"
+        android:textStyle="bold"/>
 </LinearLayout>

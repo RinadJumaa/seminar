@@ -78,6 +78,17 @@
             android:padding="20dp"
             android:textColorHint="#CDD1D5" />
 
+        <TextView
+            android:id="@+id/edtlocation"
+            android:layout_width="293dp"
+            android:layout_height="wrap_content"
+            android:background="#FFFFFF"
+            android:hint="Location"
+            android:inputType="textMultiLine"
+            android:textSize="18dp"
+            android:padding="20dp"
+            android:textColorHint="#CDD1D5" />
+
         <Button
             android:id="@+id/btnlocation"
             android:layout_width="282dp"
@@ -91,7 +102,7 @@
         <ImageView
             android:id="@+id/imageView4"
             android:layout_width="match_parent"
-            android:layout_height="386dp"
+            android:layout_height="320dp"
             app:srcCompat="@drawable/group" />
 
     </LinearLayout>

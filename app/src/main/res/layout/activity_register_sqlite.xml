@@ -16,11 +16,18 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="20dp"
         android:gravity="left"
+        android:fontFamily="casual"
         android:text="@string/sign_up"
         android:textAllCaps="true"
         android:textColor="#36FBE5"
         android:textSize="30dp"
         android:textStyle="bold" />
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="330dp"
+        android:layout_height="230dp"
+        android:src="@drawable/mybring" />
 
     <EditText
         android:id="@+id/etFullName"

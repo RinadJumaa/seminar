@@ -95,17 +95,6 @@ public class UserLoginSqlite extends AppCompatActivity {
         String pass = password.getText().toString();
 
 
-        if(checkBox.isChecked()){
-            if(!flag){
-
-                editor.putString(NAME, emailstr);
-                editor.putString(PASS, pass);
-                editor.putBoolean(FLAG, true);
-
-                editor.commit();
-
-            }
-        }
 
         //if any of the edittext is empty a toast will pop up
         if (emailstr.equals("") || pass.equals("")){
@@ -131,6 +120,18 @@ public class UserLoginSqlite extends AppCompatActivity {
                     System.out.println(useremail);
                     intent.putExtra("username", name);
                     intent.putExtra("useremail", useremail);
+                }
+
+                if(checkBox.isChecked()){
+                    if(!flag){
+
+                        editor.putString(NAME, emailstr);
+                        editor.putString(PASS, pass);
+                        editor.putBoolean(FLAG, true);
+
+                        editor.commit();
+
+                    }
                 }
 
                 startActivity(intent);

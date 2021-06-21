@@ -121,7 +121,8 @@ public class GroupMainActivity extends AppCompatActivity {
                 mapToday.put("id", cursor.getString(0).toString());
                 mapToday.put("task", cursor.getString(1).toString());
                 mapToday.put("description", cursor.getString(2).toString());
-                mapToday.put("status", cursor.getString(3).toString());
+                mapToday.put("location",cursor.getString(3).toString());
+                mapToday.put("status", cursor.getString(4).toString());
                 dataList.add(mapToday);
                 cursor.moveToNext();
             }

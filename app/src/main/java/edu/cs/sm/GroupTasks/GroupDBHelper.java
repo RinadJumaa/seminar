@@ -25,6 +25,7 @@ public class GroupDBHelper extends SQLiteOpenHelper {
                 "CREATE TABLE " + TABLE_NAME + "(id INTEGER PRIMARY KEY," +
                         "task TEXT," +
                         "Description TEXT," +
+                        "location TEXT," +
                         "status INTEGER)"
         );
     }
@@ -38,24 +39,25 @@ public class GroupDBHelper extends SQLiteOpenHelper {
     }
 
 
-    public boolean insertTask(String task, String description) {
+    public boolean insertTask(String task, String description, String location) {
         Date date;
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put("task", task);
         contentValues.put("description", description);
-        //contentValues.put("dateStr", getDate(dateStr));
+        contentValues.put("location", location);
         contentValues.put("status", 0);
         db.insert(TABLE_NAME, null, contentValues);
         return true;
     }
 
-    public boolean updateTask(String id, String task, String description) {
+    public boolean updateTask(String id, String task, String description, String location) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
 
         contentValues.put("task", task);
         contentValues.put("description", description);
+        contentValues.put("location", location);
 
         db.update(TABLE_NAME, contentValues, "id = ? ", new String[]{id});
         return true;

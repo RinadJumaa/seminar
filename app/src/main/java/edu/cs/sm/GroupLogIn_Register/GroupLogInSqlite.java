@@ -15,11 +15,12 @@ import android.widget.Toast;
 
 import edu.cs.sm.GroupTasks.GroupMainActivity;
 import edu.cs.sm.R;
+import edu.cs.sm.UserTasks.SecondActivity;
 
 public class GroupLogInSqlite extends AppCompatActivity {
 
     EditText groupid, password;
-    TextView registerPage;
+    TextView registerPage, mainpage;
     CheckBox checkBox;
     Button login;
     GDBhelper DB;
@@ -42,6 +43,13 @@ public class GroupLogInSqlite extends AppCompatActivity {
         setupSharedPrefs();
         CheckPrefs();
 
+        mainpage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
+
         registerPage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -60,6 +68,7 @@ public class GroupLogInSqlite extends AppCompatActivity {
         login = findViewById(R.id.btnLogin);
         registerPage = findViewById(R.id.btnLoginRegister);
         checkBox = findViewById(R.id.rememberme);
+        mainpage = findViewById(R.id.btnback);
         DB =new GDBhelper(this);
     }
 
@@ -92,20 +101,6 @@ public class GroupLogInSqlite extends AppCompatActivity {
         String id = groupid.getText().toString();
         String pass = password.getText().toString();
 
-
-        if(checkBox.isChecked()){
-            if(!flag){
-
-                editor.putString(NAME, id);
-                editor.putString(PASS, pass);
-                editor.putBoolean(FLAG, true);
-
-                editor.commit();
-
-            }
-        }
-
-
         //if any of the edittext is empty a toast will pop up
         if (id.equals("") || pass.equals("")){
             Toast.makeText(this, "fields should not be empty", Toast.LENGTH_SHORT).show();
@@ -126,6 +121,18 @@ public class GroupLogInSqlite extends AppCompatActivity {
 //                    System.out.println(str);
 //                    intent.putExtra("username", str);
 //                }
+
+                if(checkBox.isChecked()){
+                    if(!flag){
+
+                        editor.putString(NAME, id);
+                        editor.putString(PASS, pass);
+                        editor.putBoolean(FLAG, true);
+
+                        editor.commit();
+
+                    }
+                }
                 intent.putExtra("group_id",id);
                 startActivity(intent);
             }

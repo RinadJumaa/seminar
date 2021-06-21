@@ -4,11 +4,14 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import java.util.regex.Pattern;
 
 import edu.cs.sm.R;
 import edu.cs.sm.UserTasks.SecondActivity;
@@ -65,24 +68,32 @@ public class UserRegisterSqlite extends AppCompatActivity {
         }
 
         else {
-            if (pass.equals(repass)){ // the password field and confirm password field are the same
-                Boolean checkuser = DB.checkemail(emailstr); // checks if there is a user registered using this email before
-                if (checkuser == false){ // there is no user registered with that email
-                    Boolean insert = DB.insertData(name, emailstr, pass); // insert data into the table
-                    if (insert == true) { // if it user registered successfully switch to home activity
-                        Toast.makeText(this, "Registered successfully", Toast.LENGTH_SHORT).show();
-                        Intent intent = new Intent(UserRegisterSqlite.this, SecondActivity.class);
-                        startActivity(intent);
-                    }
-                    else
-                        Toast.makeText(this, "Registration failed", Toast.LENGTH_SHORT).show();
-                }
-                else
-                    Toast.makeText(this, "User already exist", Toast.LENGTH_SHORT).show();
+            if (validateEmailAddress(emailstr)) {
+                if (pass.equals(repass)) { // the password field and confirm password field are the same
+                    Boolean checkuser = DB.checkemail(emailstr); // checks if there is a user registered using this email before
+                    if (checkuser == false) { // there is no user registered with that email
+                        Boolean insert = DB.insertData(name, emailstr, pass); // insert data into the table
+                        if (insert == true) { // if it user registered successfully switch to home activity
+                            Toast.makeText(this, "Registered successfully", Toast.LENGTH_SHORT).show();
+//                            Intent intent = new Intent(UserRegisterSqlite.this, SecondActivity.class);
+//                            startActivity(intent);
+                        } else
+                            Toast.makeText(this, "Registration failed", Toast.LENGTH_SHORT).show();
+                    } else
+                        Toast.makeText(this, "User already exist", Toast.LENGTH_SHORT).show();
+                } else
+                    Toast.makeText(this, "passwords not matching", Toast.LENGTH_SHORT).show();
             }
             else
-                Toast.makeText(this, "passwords not matching", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Invalid Email Address!", Toast.LENGTH_SHORT).show();
         }
         
+    }
+
+    public boolean validateEmailAddress(String email){
+        //String emailstr = email.getText().toString();
+        if(!email.isEmpty() && Patterns.EMAIL_ADDRESS.matcher(email).matches())
+            return true;
+        return false;
     }
 }

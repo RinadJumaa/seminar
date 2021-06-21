@@ -51,16 +51,21 @@ public class AddEditNoteActivity extends AppCompatActivity {
 //        Intent checkboxIntent = getIntent();
 //        String checkBox = checkboxIntent.getStringExtra("cbvalue");
 
+
+
+
         btnAddlocation.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 String location_name = locationName.getText().toString();
+                //String notetitle = title.getText().
                 if (location_name.equals("Location")||location_name.equals("No place added")){
                     location_name ="";
                 }
                 else {
                     Intent i = new Intent(AddEditNoteActivity.this, LocationAlarm.class);
                     i.putExtra("location_name", location_name);
+                    i.putExtra("title", title.getText().toString());
                     int id = getIntent().getIntExtra("id", -1);
                     if (id > -1) {
                         i.putExtra("id", id);
@@ -94,6 +99,14 @@ public class AddEditNoteActivity extends AppCompatActivity {
         } else {
             setTitle("Add Note");
         }
+
+        String buttonText = locationName.getText().toString();
+        if (buttonText.equals("")||buttonText.equals("Location")||buttonText.equals("No place added")){
+            btnAddlocation.setText("Set Location");
+        }
+        else
+            btnAddlocation.setText("Track Location");
+
 
 //        txtRepeat.setOnClickListener(new View.OnClickListener() {
 //            @Override
