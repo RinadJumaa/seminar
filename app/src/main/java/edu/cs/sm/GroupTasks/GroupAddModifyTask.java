@@ -1,8 +1,10 @@
 package edu.cs.sm.GroupTasks;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -28,12 +30,24 @@ public class GroupAddModifyTask extends AppCompatActivity {
     TextView edtlocation;
     Button save_btn,btnlocation;
 
+    public final static  String NAME = "ID";
+    public final static  String FLAG = "cbFLAG";
+
+    private boolean flag = false;
+
+    SharedPreferences prefs;
+    SharedPreferences.Editor editor;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getSupportActionBar().hide();
         getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
         setContentView(R.layout.activity_group_add_modify_task);
+
+        prefs = PreferenceManager.getDefaultSharedPreferences(this);
+        editor = prefs.edit();
+
 
         mydb = new GroupDBHelper(getApplicationContext());
        // calendar = new GregorianCalendar();
@@ -122,10 +136,15 @@ public class GroupAddModifyTask extends AppCompatActivity {
                         edtlocation.getText().toString());
                 Toast.makeText(getApplicationContext(), "Task Updated.", Toast.LENGTH_SHORT).show();
             } else {
-                mydb.insertTask(title.getText().toString(),
-                        description.getText().toString(),
-                        edtlocation.getText().toString());
-                Toast.makeText(getApplicationContext(), "Task Added.", Toast.LENGTH_SHORT).show();
+                //flag = prefs.getBoolean(FLAG, false); // b default value
+
+                //if(flag) {
+                    String id = prefs.getString(NAME, "");
+                    mydb.insertTask(id,title.getText().toString(),
+                            description.getText().toString(),
+                            edtlocation.getText().toString());
+                    Toast.makeText(getApplicationContext(), "Task Added.", Toast.LENGTH_SHORT).show();
+                //}
             }
             finish();
 

@@ -22,7 +22,7 @@ public class GDBhelper extends SQLiteOpenHelper {
 
         MyDB.execSQL("create Table groups(" +
                 "Name TEXT," +
-                "ID TEXT primary key," +
+                "group_id TEXT primary key," +
                 "password TEXT)");//create a new table
     }
 
@@ -32,13 +32,13 @@ public class GDBhelper extends SQLiteOpenHelper {
         MyDB.execSQL("drop Table if exists groups");
     }
 
-    public Boolean insertData(String name,String id, String password){
+    public Boolean insertData(String name,String group_id, String password){
 
         //insertion of data into the table
         SQLiteDatabase MyDB = this.getWritableDatabase(); //helps open the database for reading or writing
         ContentValues contentValues = new ContentValues();
         contentValues.put("name", name); //column called name
-        contentValues.put("id", id); // column called id
+        contentValues.put("group_id", group_id); // column called id
         contentValues.put("password", password); // column called password
 
         long result = MyDB.insert("groups", null, contentValues); //insert a new group
@@ -49,7 +49,7 @@ public class GDBhelper extends SQLiteOpenHelper {
     /* this function basically checks if the user already exists in the db table*/
     public Boolean checkID(String ID){
         SQLiteDatabase MyDB = this.getWritableDatabase();
-        Cursor cursor = MyDB.rawQuery("select * from groups where id =? ",
+        Cursor cursor = MyDB.rawQuery("select * from groups where group_id =? ",
                 new String [] {ID});
 
         if (cursor.getCount() > 0) return true; //found a user
@@ -61,7 +61,7 @@ public class GDBhelper extends SQLiteOpenHelper {
     public Boolean checkidPassword(String id, String password){
 
         SQLiteDatabase MyDB = this.getWritableDatabase();
-        Cursor cursor = MyDB.rawQuery("select * from groups where id = ? and password = ?",
+        Cursor cursor = MyDB.rawQuery("select * from groups where group_id = ? and password = ?",
                 new String [] {id,password});
         if (cursor.getCount() > 0) return true; //found a user and password
         else

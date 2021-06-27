@@ -1,8 +1,10 @@
 package edu.cs.sm.GroupTasks;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.LinearLayout;
@@ -26,6 +28,15 @@ public class GroupMainActivity extends AppCompatActivity {
 //    ArrayList<HashMap<String, String>> tomorrowList = new ArrayList<HashMap<String, String>>();
 //    ArrayList<HashMap<String, String>> upcomingList = new ArrayList<HashMap<String, String>>();
 
+    public final static  String NAME = "ID";
+    public final static  String FLAG = "cbFLAG";
+
+    private boolean flag = false;
+
+    SharedPreferences prefs;
+    SharedPreferences.Editor editor;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -33,6 +44,8 @@ public class GroupMainActivity extends AppCompatActivity {
         getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
         setContentView(R.layout.activity_group_main);
 
+        prefs = PreferenceManager.getDefaultSharedPreferences(this);
+        editor = prefs.edit();
         mydb = new GroupDBHelper(this);
         empty = findViewById(R.id.empty);
         scrollView = findViewById(R.id.scrollView);
@@ -72,15 +85,20 @@ public class GroupMainActivity extends AppCompatActivity {
 //        tomorrowList.clear();
 //        upcomingList.clear();
 
-        Cursor today = mydb.getTodayTask();
+        flag = prefs.getBoolean(FLAG, false); // b default value
+
+        //if(flag) {
+            String id = prefs.getString(NAME, "");
+            Cursor today = mydb.getTodayTask(id);
 //        Cursor tomorrow = mydb.getTomorrowTask();
 //        Cursor upcoming = mydb.getUpcomingTask();
 
-        loadDataList(today, todayList);
+
+            loadDataList(today, todayList);
 //        loadDataList(tomorrow, tomorrowList);
 //        loadDataList(upcoming, upcomingList);
 
-
+        //}
         if (todayList.isEmpty()) {
             empty.setVisibility(View.VISIBLE);
             scrollView.setVisibility(View.GONE);

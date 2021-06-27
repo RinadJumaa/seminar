@@ -3,7 +3,9 @@ package edu.cs.sm.GroupLogIn_Register;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -20,12 +22,26 @@ public class GroupRegisterSqlite extends AppCompatActivity {
     Button makegroup;
     GDBhelper DB;
 
+    public final static  String NAME = "ID";
+    public final static  String PASS = "PASSWORD";
+    public final static  String FLAG = "cbFLAG";
+
+    private boolean flag = false;
+
+    SharedPreferences prefs;
+    SharedPreferences.Editor editor;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_group_register_sqlite);
         getSupportActionBar().hide();
+
         setUpViews();
+        prefs = PreferenceManager.getDefaultSharedPreferences(this);
+        editor = prefs.edit();
+
 
         signinPage.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -70,6 +86,11 @@ public class GroupRegisterSqlite extends AppCompatActivity {
                     if (insert == true) { // if it group registered successfully switch to home activity
                         Toast.makeText(this, "Registered successfully", Toast.LENGTH_SHORT).show();
                         Intent intent = new Intent(GroupRegisterSqlite.this, GroupMainActivity.class);
+                        editor.putString(NAME, groupid);
+                        //editor.putString(PASS, pass);
+                        //editor.putBoolean(FLAG, true);
+
+                        editor.commit();
                         startActivity(intent);
                     }
                     else

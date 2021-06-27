@@ -105,32 +105,43 @@ public class UserLoginSqlite extends AppCompatActivity {
             if (checkPassword == true){ //if the password and email is correct switch to home page
                 Toast.makeText(this, "Signing in", Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(UserLoginSqlite.this, SecondActivity.class);
-
+                StringBuffer stringBuffer = new StringBuffer();
                 Cursor cursor = DB.getUserName(emailstr);
                 if (cursor.getCount() > 0) {
-                    StringBuffer stringBuffer = new StringBuffer();
+
                     while (cursor.moveToNext()) {
                         stringBuffer.append(cursor.getString(0)+ "\n");
                         stringBuffer.append(cursor.getString(1));
                     }
-                    String [] userdata = stringBuffer.toString().split("\n");
-                    String name = userdata[0];
-                    String useremail = userdata[1];
-                    System.out.println(name);
-                    System.out.println(useremail);
-                    intent.putExtra("username", name);
-                    intent.putExtra("useremail", useremail);
+
                 }
 
                 if(checkBox.isChecked()){
                     if(!flag){
 
+                        String [] userdata = stringBuffer.toString().split("\n");
+                        String name = userdata[0];
+                        String useremail = userdata[1];
+                        System.out.println(name);
+                        System.out.println(useremail);
+                        editor.putString("username", name);
+                        editor.putString("useremail", useremail);
                         editor.putString(NAME, emailstr);
                         editor.putString(PASS, pass);
                         editor.putBoolean(FLAG, true);
 
                         editor.commit();
 
+                    }
+                    else{
+                        String [] userdata = stringBuffer.toString().split("\n");
+                        String name = userdata[0];
+                        String useremail = userdata[1];
+                        System.out.println(name);
+                        System.out.println(useremail);
+                        editor.putString("username", name);
+                        editor.putString("useremail", useremail);
+                        editor.commit();
                     }
                 }
 

@@ -3,7 +3,9 @@ package edu.cs.sm.UserLogIn_Register;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
@@ -23,13 +25,17 @@ public class UserRegisterSqlite extends AppCompatActivity {
     Button register;
     DBhelper DB;
 
+    SharedPreferences prefs;
+    SharedPreferences.Editor editor;
+    public final static  String FLAG = "REGFLAG";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register_sqlite);
         getSupportActionBar().hide();
         setUpViews();
-
+        setupSharedPrefs();
         //switch to the register page
         signinPage.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -75,8 +81,14 @@ public class UserRegisterSqlite extends AppCompatActivity {
                         Boolean insert = DB.insertData(name, emailstr, pass); // insert data into the table
                         if (insert == true) { // if it user registered successfully switch to home activity
                             Toast.makeText(this, "Registered successfully", Toast.LENGTH_SHORT).show();
-//                            Intent intent = new Intent(UserRegisterSqlite.this, SecondActivity.class);
-//                            startActivity(intent);
+                            //Intent intent = new Intent(UserRegisterSqlite.this, SecondActivity.class);
+
+                            editor.putString("username", name);
+                            editor.putString("useremail", emailstr);
+                            editor.putBoolean(FLAG, true);
+                            editor.commit();
+
+                            //startActivity(intent);
                         } else
                             Toast.makeText(this, "Registration failed", Toast.LENGTH_SHORT).show();
                     } else
@@ -95,5 +107,13 @@ public class UserRegisterSqlite extends AppCompatActivity {
         if(!email.isEmpty() && Patterns.EMAIL_ADDRESS.matcher(email).matches())
             return true;
         return false;
+    }
+
+
+    private void setupSharedPrefs() {
+
+        prefs = PreferenceManager.getDefaultSharedPreferences(this);
+        editor = prefs.edit();
+
     }
 }

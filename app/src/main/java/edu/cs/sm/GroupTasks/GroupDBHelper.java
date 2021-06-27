@@ -22,11 +22,11 @@ public class GroupDBHelper extends SQLiteOpenHelper {
         // TODO Auto-generated method stub
 
         db.execSQL(
-                "CREATE TABLE " + TABLE_NAME + "(id INTEGER PRIMARY KEY," +
-                        "task TEXT," +
-                        "Description TEXT," +
+                "CREATE TABLE " + TABLE_NAME + "(id INTEGER PRIMARY KEY, task TEXT,Description TEXT," +
                         "location TEXT," +
-                        "status INTEGER)"
+                        "status INTEGER," +
+                        "group_id TEXT," +
+                        "FOREIGN KEY(group_id) REFERENCES groups(group_id)) "
         );
     }
 
@@ -39,10 +39,11 @@ public class GroupDBHelper extends SQLiteOpenHelper {
     }
 
 
-    public boolean insertTask(String task, String description, String location) {
-        Date date;
+    public boolean insertTask(String group_id,String task, String description, String location) {
+        //Date date;
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
+        contentValues.put("group_id", group_id);
         contentValues.put("task", task);
         contentValues.put("description", description);
         contentValues.put("location", location);
@@ -87,9 +88,9 @@ public class GroupDBHelper extends SQLiteOpenHelper {
 
     }
 
-    public Cursor getTodayTask() {
+    public Cursor getTodayTask(String group_id) {
         SQLiteDatabase db = this.getReadableDatabase();
-        Cursor res = db.rawQuery("select * from " + TABLE_NAME , null);
+        Cursor res = db.rawQuery("select * from " + TABLE_NAME + " WHERE group_id = ?" , new String [] {group_id});
         return res;
 
     }

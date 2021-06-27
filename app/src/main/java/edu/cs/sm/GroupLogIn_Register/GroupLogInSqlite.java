@@ -123,7 +123,8 @@ public class GroupLogInSqlite extends AppCompatActivity {
 //                }
 
                 if(checkBox.isChecked()){
-                    if(!flag){
+                    //editor.clear();
+                    //if(!flag){
 
                         editor.putString(NAME, id);
                         editor.putString(PASS, pass);
@@ -131,7 +132,7 @@ public class GroupLogInSqlite extends AppCompatActivity {
 
                         editor.commit();
 
-                    }
+                    //}
                 }
                 intent.putExtra("group_id",id);
                 startActivity(intent);
